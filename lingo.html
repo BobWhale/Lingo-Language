@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lingo — Learn Any Language</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #080C14;
+    --navy-2: #0F1520;
+    --navy-3: #1A2236;
+    --cream: #F5F0E8;
+    --cream-muted: #A09888;
+    --amber: #E8A020;
+    --amber-dim: rgba(232, 160, 32, 0.12);
+    --rule: rgba(245, 240, 232, 0.1);
+    --rule-amber: rgba(232, 160, 32, 0.3);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--navy);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 4rem;
+    border-bottom: 0.5px solid var(--rule);
+    background: rgba(8, 12, 20, 0.85);
+    backdrop-filter: blur(12px);
+  }
+
+  .logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-weight: 300;
+    letter-spacing: 0.12em;
+    color: var(--cream);
+    text-decoration: none;
+  }
+
+  .logo span { color: var(--amber); }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cream-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--cream); }
+
+  .nav-cta {
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--navy);
+    background: var(--amber);
+    border: none;
+    padding: 0.6rem 1.6rem;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    transition: opacity 0.2s;
+  }
+
+  .nav-cta:hover { opacity: 0.88; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 8rem 4rem 4rem;
+    gap: 4rem;
+    border-bottom: 0.5px solid var(--rule);
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: 2rem;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 2rem;
+    height: 0.5px;
+    background: var(--amber);
+  }
+
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 6vw, 5.5rem);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin-bottom: 2rem;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--amber);
+  }
+
+  .hero-sub {
+    font-size: 1rem;
+    color: var(--cream-muted);
+    line-height: 1.75;
+    max-width: 42ch;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .btn-primary {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+    background: var(--amber);
+    color: var(--navy);
+    border: none;
+    padding: 0.9rem 2.2rem;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+
+  .btn-primary:hover { opacity: 0.88; }
+
+  .btn-ghost {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 400;
+    background: transparent;
+    color: var(--cream-muted);
+    border: 0.5px solid var(--rule);
+    padding: 0.9rem 2.2rem;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .btn-ghost:hover { color: var(--cream); border-color: rgba(245, 240, 232, 0.3); }
+
+  /* HERO RIGHT — language card stack */
+  .hero-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .lesson-card {
+    background: var(--navy-2);
+    border: 0.5px solid var(--rule);
+    padding: 2rem 2.2rem;
+    width: 340px;
+    position: relative;
+  }
+
+  .lesson-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--amber);
+  }
+
+  .card-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1rem;
+  }
+
+  .card-word {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.2rem;
+    font-weight: 300;
+    line-height: 1.1;
+    margin-bottom: 0.3rem;
+  }
+
+  .card-phonetic {
+    font-size: 0.82rem;
+    color: var(--cream-muted);
+    margin-bottom: 1.5rem;
+    font-style: italic;
+  }
+
+  .card-translation {
+    font-size: 1rem;
+    color: var(--cream);
+    padding-top: 1rem;
+    border-top: 0.5px solid var(--rule);
+    margin-bottom: 1.2rem;
+  }
+
+  .progress-bar-wrap {
+    height: 2px;
+    background: var(--rule);
+    margin-bottom: 0.5rem;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--amber);
+    width: 0%;
+    transition: width 1.5s ease;
+  }
+
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.72rem;
+    color: var(--cream-muted);
+    letter-spacing: 0.08em;
+  }
+
+  /* Floating stat cards */
+  .stat-float {
+    position: absolute;
+    background: var(--navy-3);
+    border: 0.5px solid var(--rule);
+    padding: 0.9rem 1.2rem;
+  }
+
+  .stat-float.top-right {
+    top: 8%;
+    right: 2%;
+  }
+
+  .stat-float.bottom-left {
+    bottom: 12%;
+    left: 0%;
+  }
+
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 300;
+    color: var(--cream);
+    line-height: 1.1;
+  }
+
+  .stat-num span { color: var(--amber); }
+
+  .stat-desc {
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cream-muted);
+    margin-top: 0.2rem;
+  }
+
+  /* TICKER */
+  .ticker {
+    border-top: 0.5px solid var(--rule);
+    border-bottom: 0.5px solid var(--rule);
+    padding: 0.75rem 0;
+    overflow: hidden;
+    background: var(--navy-2);
+  }
+
+  .ticker-track {
+    display: flex;
+    gap: 0;
+    white-space: nowrap;
+    animation: ticker 28s linear infinite;
+    width: max-content;
+  }
+
+  .ticker-item {
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--cream-muted);
+    padding: 0 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .ticker-item::after {
+    content: '◆';
+    color: var(--amber);
+    font-size: 0.4rem;
+  }
+
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* STATS ROW */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-bottom: 0.5px solid var(--rule);
+  }
+
+  .stat-cell {
+    padding: 3rem 4rem;
+    border-right: 0.5px solid var(--rule);
+  }
+
+  .stat-cell:last-child { border-right: none; }
+
+  .stat-big {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.5rem;
+    font-weight: 300;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-big span { color: var(--amber); }
+
+  .stat-small {
+    font-size: 0.78rem;
+    color: var(--cream-muted);
+    letter-spacing: 0.06em;
+    line-height: 1.5;
+  }
+
+  /* FEATURE SECTION */
+  .features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 0.5px solid var(--rule);
+  }
+
+  .features-left {
+    padding: 6rem 4rem;
+    border-right: 0.5px solid var(--rule);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .section-eyebrow {
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .section-eyebrow::before {
+    content: '';
+    display: block;
+    width: 1.5rem;
+    height: 0.5px;
+    background: var(--amber);
+  }
+
+  h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 3.5vw, 3.2rem);
+    font-weight: 300;
+    line-height: 1.15;
+    margin-bottom: 1.5rem;
+  }
+
+  h2 em { font-style: italic; color: var(--amber); }
+
+  .section-body {
+    font-size: 0.95rem;
+    color: var(--cream-muted);
+    line-height: 1.8;
+    max-width: 46ch;
+    margin-bottom: 2rem;
+  }
+
+  .features-right {
+    padding: 6rem 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .feature-item {
+    padding: 2rem 0;
+    border-bottom: 0.5px solid var(--rule);
+    display: grid;
+    grid-template-columns: 2.5rem 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  .feature-item:first-child { padding-top: 0; }
+  .feature-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+  .feature-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    color: var(--amber);
+    padding-top: 0.15rem;
+    letter-spacing: 0.05em;
+  }
+
+  .feature-title {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--cream);
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.02em;
+  }
+
+  .feature-desc {
+    font-size: 0.82rem;
+    color: var(--cream-muted);
+    line-height: 1.65;
+  }
+
+  /* LANGUAGES GRID */
+  .languages {
+    padding: 6rem 4rem;
+    border-bottom: 0.5px solid var(--rule);
+  }
+
+  .languages-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 3rem;
+  }
+
+  .lang-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+    border-top: 0.5px solid var(--rule);
+    border-left: 0.5px solid var(--rule);
+  }
+
+  .lang-cell {
+    padding: 1.8rem 1.5rem;
+    border-right: 0.5px solid var(--rule);
+    border-bottom: 0.5px solid var(--rule);
+    cursor: pointer;
+    transition: background 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .lang-cell:hover { background: var(--navy-2); }
+
+  .lang-cell.featured { background: var(--amber-dim); }
+  .lang-cell.featured::after {
+    content: '★';
+    position: absolute;
+    top: 0.6rem;
+    right: 0.8rem;
+    font-size: 0.5rem;
+    color: var(--amber);
+  }
+
+  .lang-name {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--cream);
+    margin-bottom: 0.2rem;
+  }
+
+  .lang-native {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    color: var(--cream-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .lang-speakers {
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--cream-muted);
+    opacity: 0.6;
+  }
+
+  /* TESTIMONIALS */
+  .testimonials {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    border-bottom: 0.5px solid var(--rule);
+  }
+
+  .testimonial {
+    padding: 4rem;
+    border-right: 0.5px solid var(--rule);
+  }
+
+  .testimonial:last-child { border-right: none; }
+
+  .testimonial-stars {
+    display: flex;
+    gap: 0.3rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .star { color: var(--amber); font-size: 0.7rem; }
+
+  .testimonial-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem;
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.6;
+    color: var(--cream);
+    margin-bottom: 1.5rem;
+  }
+
+  .testimonial-author {
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cream-muted);
+  }
+
+  .testimonial-role {
+    font-size: 0.72rem;
+    color: var(--cream-muted);
+    opacity: 0.6;
+    margin-top: 0.2rem;
+  }
+
+  /* PRICING */
+  .pricing {
+    padding: 6rem 4rem;
+    border-bottom: 0.5px solid var(--rule);
+  }
+
+  .pricing-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: 0.5px solid var(--rule);
+  }
+
+  .pricing-card {
+    padding: 3rem 2.5rem;
+    border-right: 0.5px solid var(--rule);
+    position: relative;
+  }
+
+  .pricing-card:last-child { border-right: none; }
+
+  .pricing-card.featured {
+    background: var(--navy-2);
+    border-top: 2px solid var(--amber);
+    margin-top: -1px;
+  }
+
+  .plan-badge {
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    background: var(--amber);
+    color: var(--navy);
+    padding: 0.25rem 0.7rem;
+    display: inline-block;
+    margin-bottom: 1rem;
+    font-weight: 500;
+  }
+
+  .plan-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 300;
+    margin-bottom: 0.3rem;
+  }
+
+  .plan-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.5rem;
+    font-weight: 300;
+    line-height: 1;
+    margin: 1rem 0 0.3rem;
+  }
+
+  .plan-price sup {
+    font-size: 1.2rem;
+    vertical-align: top;
+    margin-top: 0.8rem;
+    display: inline-block;
+  }
+
+  .plan-period {
+    font-size: 0.78rem;
+    color: var(--cream-muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .plan-divider {
+    height: 0.5px;
+    background: var(--rule);
+    margin: 1.5rem 0;
+  }
+
+  .plan-features {
+    list-style: none;
+    margin-bottom: 2rem;
+  }
+
+  .plan-features li {
+    font-size: 0.82rem;
+    color: var(--cream-muted);
+    padding: 0.5rem 0;
+    border-bottom: 0.5px solid var(--rule);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .plan-features li::before {
+    content: '—';
+    color: var(--amber);
+    font-size: 0.7rem;
+  }
+
+  /* CTA SECTION */
+  .cta-section {
+    padding: 8rem 4rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 4rem;
+    border-bottom: 0.5px solid var(--rule);
+  }
+
+  .cta-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 4vw, 4rem);
+    font-weight: 300;
+    line-height: 1.1;
+  }
+
+  .cta-heading em { color: var(--amber); font-style: italic; }
+
+  .cta-right {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .cta-body {
+    font-size: 0.95rem;
+    color: var(--cream-muted);
+    line-height: 1.75;
+    margin-bottom: 1rem;
+  }
+
+  .email-row {
+    display: flex;
+    gap: 0;
+  }
+
+  .email-input {
+    flex: 1;
+    background: var(--navy-2);
+    border: 0.5px solid var(--rule);
+    border-right: none;
+    padding: 0.85rem 1.2rem;
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .email-input::placeholder { color: var(--cream-muted); }
+  .email-input:focus { border-color: rgba(245,240,232,0.3); }
+
+  /* FOOTER */
+  footer {
+    padding: 3rem 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 300;
+    letter-spacing: 0.12em;
+    color: var(--cream-muted);
+  }
+
+  .footer-logo span { color: var(--amber); }
+
+  .footer-copy {
+    font-size: 0.72rem;
+    color: var(--cream-muted);
+    opacity: 0.5;
+    letter-spacing: 0.06em;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .footer-links a {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--cream-muted);
+    text-decoration: none;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+  }
+
+  .footer-links a:hover { opacity: 1; }
+
+  /* CLAUDE BANNER */
+  .claude-banner {
+    background: var(--amber-dim);
+    border-top: 0.5px solid var(--rule-amber);
+    border-bottom: 0.5px solid var(--rule-amber);
+    padding: 1.2rem 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .claude-banner-text {
+    font-size: 0.78rem;
+    color: var(--cream-muted);
+    letter-spacing: 0.04em;
+  }
+
+  .claude-banner-text strong {
+    color: var(--amber);
+    font-weight: 500;
+  }
+
+  .claude-banner-cta {
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--amber);
+    font-weight: 500;
+    white-space: nowrap;
+    text-decoration: none;
+    border: 0.5px solid var(--rule-amber);
+    padding: 0.5rem 1.2rem;
+    transition: background 0.2s;
+  }
+
+  .claude-banner-cta:hover { background: var(--amber-dim); }
+
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 2rem; }
+    .nav-links { display: none; }
+    .hero, .features, .cta-section { grid-template-columns: 1fr; }
+    .hero { padding: 7rem 2rem 3rem; }
+    .hero-right { display: none; }
+    .stats-row { grid-template-columns: 1fr 1fr; }
+    .stat-cell { padding: 2rem; }
+    .features-left, .features-right { padding: 3rem 2rem; }
+    .lang-grid { grid-template-columns: repeat(2, 1fr); }
+    .testimonials { grid-template-columns: 1fr; }
+    .testimonial { border-right: none; border-bottom: 0.5px solid var(--rule); }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .pricing-card { border-right: none; border-bottom: 0.5px solid var(--rule); }
+    .languages, .pricing, .cta-section { padding: 4rem 2rem; }
+    .claude-banner { padding: 1rem 2rem; flex-direction: column; align-items: flex-start; }
+    footer { padding: 2rem; flex-direction: column; gap: 1rem; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- CLAUDE BANNER -->
+<div class="claude-banner">
+  <p class="claude-banner-text">
+    This entire website was built by <strong>free Claude</strong> in one prompt. 
+    Imagine what <strong>Claude Code</strong> builds for you — production-ready apps, full codebases, deployed.
+  </p>
+  <a href="https://claude.ai/code" class="claude-banner-cta">Try Claude Code →</a>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">ling<span>o</span></a>
+  <ul class="nav-links">
+    <li><a href="#features">Method</a></li>
+    <li><a href="#languages">Languages</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#about">About</a></li>
+  </ul>
+  <button class="nav-cta">Start free</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Language, elevated</p>
+    <h1>The world speaks.<br><em>Now so do you.</em></h1>
+    <p class="hero-sub">
+      Lingo is a precision language platform built for people who are serious about fluency. 
+      No gamification. No streaks. Just the fastest path from silence to conversation.
+    </p>
+    <div class="hero-actions">
+      <button class="btn-primary">Begin today</button>
+      <button class="btn-ghost">Watch the method</button>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="stat-float top-right">
+      <div class="stat-num"><span>94</span>%</div>
+      <div class="stat-desc">Fluency rate, 90 days</div>
+    </div>
+    <div class="lesson-card">
+      <div class="card-label">Today's word · Japanese</div>
+      <div class="card-word" id="card-word">静寂</div>
+      <div class="card-phonetic" id="card-phonetic">sei·jaku</div>
+      <div class="card-translation" id="card-trans">Silence; a profound, enveloping stillness</div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="prog-bar"></div>
+      </div>
+      <div class="progress-label">
+        <span>Session progress</span>
+        <span id="prog-pct">0%</span>
+      </div>
+    </div>
+    <div class="stat-float bottom-left">
+      <div class="stat-num"><span>47</span></div>
+      <div class="stat-desc">Languages available</div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track" id="ticker">
+    <span class="ticker-item">Mandarin</span>
+    <span class="ticker-item">Spanish</span>
+    <span class="ticker-item">Arabic</span>
+    <span class="ticker-item">Japanese</span>
+    <span class="ticker-item">French</span>
+    <span class="ticker-item">Portuguese</span>
+    <span class="ticker-item">German</span>
+    <span class="ticker-item">Korean</span>
+    <span class="ticker-item">Italian</span>
+    <span class="ticker-item">Russian</span>
+    <span class="ticker-item">Hindi</span>
+    <span class="ticker-item">Swahili</span>
+    <span class="ticker-item">Turkish</span>
+    <span class="ticker-item">Dutch</span>
+    <span class="ticker-item">Mandarin</span>
+    <span class="ticker-item">Spanish</span>
+    <span class="ticker-item">Arabic</span>
+    <span class="ticker-item">Japanese</span>
+    <span class="ticker-item">French</span>
+    <span class="ticker-item">Portuguese</span>
+    <span class="ticker-item">German</span>
+    <span class="ticker-item">Korean</span>
+    <span class="ticker-item">Italian</span>
+    <span class="ticker-item">Russian</span>
+    <span class="ticker-item">Hindi</span>
+    <span class="ticker-item">Swahili</span>
+    <span class="ticker-item">Turkish</span>
+    <span class="ticker-item">Dutch</span>
+  </div>
+</div>
+
+<!-- STATS ROW -->
+<div class="stats-row">
+  <div class="stat-cell">
+    <div class="stat-big"><span>2.1</span>M</div>
+    <div class="stat-small">Active learners across<br>138 countries</div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-big"><span>47</span></div>
+    <div class="stat-small">Languages taught,<br>from Arabic to Zulu</div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-big"><span>12</span>m</div>
+    <div class="stat-small">Average daily session<br>to reach conversational</div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-big"><span>90</span></div>
+    <div class="stat-small">Days to confident<br>everyday conversation</div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="features-left">
+    <p class="section-eyebrow">The method</p>
+    <h2>Built for the way<br><em>the mind learns.</em></h2>
+    <p class="section-body">
+      Lingo was designed with cognitive scientists and polyglots to replicate the conditions 
+      of natural language acquisition — without moving abroad. 
+      Every session is adaptive. Every word is placed at exactly the moment you need it.
+    </p>
+    <button class="btn-ghost">Read the research</button>
+  </div>
+  <div class="features-right">
+    <div class="feature-item">
+      <div class="feature-num">01</div>
+      <div>
+        <div class="feature-title">Adaptive spacing</div>
+        <div class="feature-desc">Words surface exactly when your memory needs reinforcing — not on a fixed schedule. Your forgetting curve, accounted for.</div>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-num">02</div>
+      <div>
+        <div class="feature-title">Native-voice immersion</div>
+        <div class="feature-desc">Every lesson uses real speaker audio recorded in-country. No synthesized voices, no approximations.</div>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-num">03</div>
+      <div>
+        <div class="feature-title">Context before grammar</div>
+        <div class="feature-desc">You learn grammar by encountering it in real sentences, the same way a child does — not from textbook rules.</div>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-num">04</div>
+      <div>
+        <div class="feature-title">Live tutor sessions</div>
+        <div class="feature-desc">One-on-one conversation practice with vetted native speakers. Scheduled in seconds, available in every timezone.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LANGUAGES GRID -->
+<section class="languages" id="languages">
+  <div class="languages-header">
+    <div>
+      <p class="section-eyebrow">47 languages</p>
+      <h2 style="margin-bottom: 0;">Choose your world.</h2>
+    </div>
+    <button class="btn-ghost" style="white-space: nowrap;">Browse all →</button>
+  </div>
+  <div class="lang-grid">
+    <div class="lang-cell featured">
+      <div class="lang-name">Mandarin</div>
+      <div class="lang-native">普通话</div>
+      <div class="lang-speakers">1.1B speakers</div>
+    </div>
+    <div class="lang-cell">
+      <div class="lang-name">Spanish</div>
+      <div class="lang-native">Español</div>
+      <div class="lang-speakers">485M speakers</div>
+    </div>
+    <div class="lang-cell featured">
+      <div class="lang-name">Arabic</div>
+      <div class="lang-native">العربية</div>
+      <div class="lang-speakers">422M speakers</div>
+    </div>
+    <div class="lang-cell">
+      <div class="lang-name">French</div>
+      <div class="lang-native">Français</div>
+      <div class="lang-speakers">280M speakers</div>
+    </div>
+    <div class="lang-cell">
+      <div class="lang-name">Japanese</div>
+      <div class="lang-native">日本語</div>
+      <div class="lang-speakers">125M speakers</div>
+    </div>
+    <div class="lang-cell">
+      <div class="lang-name">German</div>
+      <div class="lang-native">Deutsch</div>
+      <div class="lang-speakers">132M speakers</div>
+    </div>
+    <div class="lang-cell featured">
+      <div class="lang-name">Korean</div>
+      <div class="lang-native">한국어</div>
+      <div class="lang-speakers">82M speakers</div>
+    </div>
+    <div class="lang-cell">
+      <div class="lang-name">Portuguese</div>
+      <div class="lang-native">Português</div>
+      <div class="lang-speakers">236M speakers</div>
+    </div>
+    <div class="lang-cell">
+      <div class="lang-name">Italian</div>
+      <div class="lang-native">Italiano</div>
+      <div class="lang-speakers">68M speakers</div>
+    </div>
+    <div class="lang-cell">
+      <div class="lang-name">Russian</div>
+      <div class="lang-native">Русский</div>
+      <div class="lang-speakers">154M speakers</div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="testimonial">
+    <div class="testimonial-stars">
+      <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+    </div>
+    <p class="testimonial-quote">"I ordered coffee in Tokyo without hesitating. Three months ago I didn't know a single word."</p>
+    <div class="testimonial-author">Mara S.</div>
+    <div class="testimonial-role">Architect, Oslo</div>
+  </div>
+  <div class="testimonial">
+    <div class="testimonial-stars">
+      <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+    </div>
+    <p class="testimonial-quote">"Twelve minutes a day. That's all it took. My colleagues in São Paulo can't believe I learned this fast."</p>
+    <div class="testimonial-author">James K.</div>
+    <div class="testimonial-role">CFO, London</div>
+  </div>
+  <div class="testimonial">
+    <div class="testimonial-stars">
+      <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+    </div>
+    <p class="testimonial-quote">"Every other app made me feel like I was playing a game. Lingo made me feel like I was actually learning."</p>
+    <div class="testimonial-author">Priya N.</div>
+    <div class="testimonial-role">Surgeon, Singapore</div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="pricing-header">
+    <p class="section-eyebrow" style="justify-content: center; margin-bottom: 1rem;">Simple pricing</p>
+    <h2 style="margin: 0 auto; max-width: 30ch;">One investment.<br><em>A language for life.</em></h2>
+  </div>
+  <div class="pricing-grid">
+    <div class="pricing-card">
+      <div class="plan-name">Explorer</div>
+      <div class="plan-price"><sup>$</sup>0</div>
+      <div class="plan-period">Free forever</div>
+      <div class="plan-divider"></div>
+      <ul class="plan-features">
+        <li>1 language</li>
+        <li>Core vocabulary track</li>
+        <li>10 lessons per month</li>
+        <li>Community forums</li>
+      </ul>
+      <button class="btn-ghost" style="width: 100%; text-align: center;">Start free</button>
+    </div>
+    <div class="pricing-card featured">
+      <div class="plan-badge">Most popular</div>
+      <div class="plan-name">Fluent</div>
+      <div class="plan-price"><sup>$</sup>14</div>
+      <div class="plan-period">per month, billed annually</div>
+      <div class="plan-divider"></div>
+      <ul class="plan-features">
+        <li>Unlimited languages</li>
+        <li>Full adaptive curriculum</li>
+        <li>Native speaker audio library</li>
+        <li>2 live tutor sessions / month</li>
+        <li>Progress analytics</li>
+      </ul>
+      <button class="btn-primary" style="width: 100%; text-align: center;">Begin today</button>
+    </div>
+    <div class="pricing-card">
+      <div class="plan-name">Mastery</div>
+      <div class="plan-price"><sup>$</sup>39</div>
+      <div class="plan-period">per month, billed annually</div>
+      <div class="plan-divider"></div>
+      <ul class="plan-features">
+        <li>Everything in Fluent</li>
+        <li>Unlimited tutor sessions</li>
+        <li>Certified language assessments</li>
+        <li>Dedicated learning coach</li>
+        <li>Early access to new languages</li>
+      </ul>
+      <button class="btn-ghost" style="width: 100%; text-align: center;">Go mastery</button>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div>
+    <h2 class="cta-heading">Start speaking.<br>The world is<br><em>waiting for you.</em></h2>
+  </div>
+  <div class="cta-right">
+    <p class="cta-body">
+      Join 2.1 million learners who decided that language was worth their time. 
+      Your first lesson takes four minutes.
+    </p>
+    <div class="email-row">
+      <input type="email" class="email-input" placeholder="your@email.com">
+      <button class="btn-primary">Begin →</button>
+    </div>
+    <p style="font-size: 0.72rem; color: var(--cream-muted); opacity: 0.6; letter-spacing: 0.04em;">No card required. Cancel any time.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">ling<span>o</span></div>
+  <ul class="footer-links">
+    <li><a href="#">Privacy</a></li>
+    <li><a href="#">Terms</a></li>
+    <li><a href="#">Blog</a></li>
+    <li><a href="#">Careers</a></li>
+  </ul>
+  <p class="footer-copy">© 2025 Lingo Inc. All rights reserved.</p>
+</footer>
+
+<script>
+  // Progress bar animation on load
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      const bar = document.getElementById('prog-bar');
+      const pct = document.getElementById('prog-pct');
+      if (bar) {
+        bar.style.width = '68%';
+        pct.textContent = '68%';
+      }
+    }, 600);
+  });
+
+  // Rotating lesson cards
+  const words = [
+    { lang: 'Japanese', word: '静寂', phonetic: 'sei·jaku', trans: 'Silence; a profound, enveloping stillness' },
+    { lang: 'Mandarin', word: '悠然', phonetic: 'yōu·rán', trans: 'Leisurely and carefree; at ease with the world' },
+    { lang: 'Italian', word: 'Abbiocco', phonetic: 'ab·bio·co', trans: 'The drowsy feeling after a large meal' },
+    { lang: 'Arabic', word: 'طمأنينة', phonetic: 'ṭu·ma\'·ni·na', trans: 'A deep, tranquil peace of mind' },
+    { lang: 'Korean', word: '눈치', phonetic: 'nun·chi', trans: 'The subtle art of reading a room' },
+  ];
+
+  let idx = 0;
+  function rotateCard() {
+    idx = (idx + 1) % words.length;
+    const w = words[idx];
+    const el = (id) => document.getElementById(id);
+    if (el('card-word')) {
+      el('card-word').style.opacity = '0';
+      el('card-phonetic').style.opacity = '0';
+      el('card-trans').style.opacity = '0';
+      setTimeout(() => {
+        document.querySelector('.card-label').textContent = `Today's word · ${w.lang}`;
+        el('card-word').textContent = w.word;
+        el('card-phonetic').textContent = w.phonetic;
+        el('card-trans').textContent = w.trans;
+        el('card-word').style.opacity = '1';
+        el('card-phonetic').style.opacity = '1';
+        el('card-trans').style.opacity = '1';
+      }, 300);
+    }
+  }
+  ['card-word','card-phonetic','card-trans'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.transition = 'opacity 0.3s';
+  });
+  setInterval(rotateCard, 4000);
+</script>
+</body>
+</html>
